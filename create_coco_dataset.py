@@ -9,6 +9,10 @@ from shutil import copyfile
 import json
 
 TRAIN_PATH = '/root/kaggle/tensorflow-great-barrier-reef/data'
+COCO_DATASET_PATH = f'{TRAIN_PATH}/cocodataset'
+TRAIN_IMG_PATH = f'{COCO_DATASET_PATH}/train'
+VALID_IMG_PATH = f'{COCO_DATASET_PATH}/valid'
+ANNOTATION_PATH = f'{COCO_DATASET_PATH}/annotations'
 
 
 def get_bbox(annots):
@@ -50,9 +54,9 @@ SELECTED_FOLD = 4
 for i in tqdm(range(len(df_train))):
     row = df_train.loc[i]
     if row.fold != SELECTED_FOLD:
-        copyfile(f'{row.image_path}', f'{HOME_DIR}{DATASET_PATH}/train2017/{row.image_id}.jpg')
+        copyfile(f'{row.image_path}', f'{TRAIN_IMG_PATH}/{row.image_id}.jpg')
     else:
-        copyfile(f'{row.image_path}', f'{HOME_DIR}{DATASET_PATH}/val2017/{row.image_id}.jpg')
+        copyfile(f'{row.image_path}', f'{VALID_IMG_PATH}/{row.image_id}.jpg')
 
 def save_annot_json(json_annotation, filename):
     with open(filename, 'w') as f:
@@ -138,9 +142,9 @@ def dataset2coco(df, dest_path):
     return annotations_json
 
 # Convert COTS dataset to JSON COCO
-train_annot_json = dataset2coco(df_train[df_train.fold != SELECTED_FOLD], f"{HOME_DIR}{DATASET_PATH}/train2017/")
-val_annot_json = dataset2coco(df_train[df_train.fold == SELECTED_FOLD], f"{HOME_DIR}{DATASET_PATH}/val2017/")
+train_annot_json = dataset2coco(df_train[df_train.fold != SELECTED_FOLD], f"{TRAIN_IMG_PATH}/")
+val_annot_json = dataset2coco(df_train[df_train.fold == SELECTED_FOLD], f"{VALID_IMG_PATH}/")
 
 # Save converted annotations
-save_annot_json(train_annot_json, f"{HOME_DIR}{DATASET_PATH}/annotations/train.json")
-save_annot_json(val_annot_json, f"{HOME_DIR}{DATASET_PATH}/annotations/valid.json")
+save_annot_json(train_annot_json, f"{ANNOTATION_PATH}/train.json")
+save_annot_json(val_annot_json, f"{ANNOTATION_PATH}/valid.json")
