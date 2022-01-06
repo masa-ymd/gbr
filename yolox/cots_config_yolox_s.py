@@ -3,6 +3,8 @@
 # Copyright (c) Megvii, Inc. and its affiliates.
 
 import os
+import warnings
+warnings.filterwarnings("ignore")
 
 from yolox.exp import Exp as MyExp
 
