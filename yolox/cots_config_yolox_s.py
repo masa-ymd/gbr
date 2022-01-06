@@ -10,6 +10,7 @@ from yolox.exp import Exp as MyExp
 
 TRAIN_PATH = '/root/kaggle/tensorflow-great-barrier-reef/data'
 COCO_DATASET_PATH = f'{TRAIN_PATH}/cocodataset'
+OUTPUT_DIR = '/root/kaggle/tensorflow-great-barrier-reef/models'
 
 class Exp(MyExp):
     def __init__(self):
@@ -22,6 +23,8 @@ class Exp(MyExp):
         self.data_dir = f"{COCO_DATASET_PATH}"
         self.train_ann = "train.json"
         self.val_ann = "valid.json"
+
+        self.output_dir = f'{OUTPUT_DIR}//YOLOX_outputs'
 
         self.num_classes = 1
 
