@@ -24,7 +24,7 @@ class Exp(MyExp):
         self.train_ann = "train.json"
         self.val_ann = "valid.json"
 
-        self.output_dir = f'{OUTPUT_DIR}//YOLOX_outputs'
+        self.output_dir = f'{OUTPUT_DIR}/YOLOX_outputs'
 
         self.num_classes = 1
 
@@ -38,7 +38,7 @@ class Exp(MyExp):
         self.flip_prob = 0.5
         self.no_aug_epochs = 2
         
-        self.input_size = (960, 960)
+        self.input_size = (800, 1280)
         self.mosaic_scale = (0.5, 1.5)
         self.random_size = (10, 20)
-        self.test_size = (960, 960)
+        self.test_size = (800, 1280)
