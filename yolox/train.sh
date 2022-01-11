@@ -1,9 +1,8 @@
 #!/bin/bash
 
 python3 -B train.py \
--f /root/gbr/yolox/cots_config_yolox_l.py \
+-f /root/gbr/yolox/cots_config_yolox_x.py \
 -d 1 \
--b 8 \
---fp16 \
+-b 4 \
 -o \
--c /root/kaggle/tensorflow-great-barrier-reef/models/pretrained_weights/yolox_l.pth
+-c /root/kaggle/tensorflow-great-barrier-reef/models/pretrained_weights/yolox_x.pth
