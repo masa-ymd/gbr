@@ -67,3 +67,9 @@ with open(f'{OUTPUT_PATH}/annotations/annotations_valid.json', 'w', encoding='ut
 import os
 os.makedirs(f'{OUTPUT_PATH}/train2017', exist_ok=True)
 os.makedirs(f'{OUTPUT_PATH}/val2017', exist_ok=True)
+
+import shutil
+for i, row in tqdm(df.iterrows(), total = len(df)):
+    base_dir = 'val2017' if row['is_valid'] else 'train2017'
+    fname = f"{row['image_id']}.jpg"
+    shutil.copyfile(row['path'], f'{OUTPUT_PATH}/{base_dir}/{fname}')
