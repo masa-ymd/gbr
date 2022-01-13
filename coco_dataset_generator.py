@@ -4,13 +4,16 @@ from tqdm import tqdm
 
 TRAIN_PATH = '/root/kaggle/tensorflow-great-barrier-reef/data/train_images'
 N_SAMP = 6000
+SEED = 42
 
 df = pd.read_csv('/root/kaggle/tensorflow-great-barrier-reef/data/train.csv')
 n_with_annotations = (df['annotations'] != '[]').sum()
 
+print(f'n_with_annotations: {n_with_annotations}')
+
 df = pd.concat([
     df[df['annotations'] != '[]'],
-    df[df['annotations'] == '[]'].sample(N_SAMP - n_with_annotations)
+    df[df['annotations'] == '[]'].sample(N_SAMP - n_with_annotations, random_state=1)
 ]).sample(frac=1).reset_index(drop = True)
 
 df['is_valid'] = df['video_id'] == 2
