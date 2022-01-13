@@ -56,10 +56,14 @@ json_valid = coco(df[ df['is_valid']])
 
 import json
 
-OUTPUT_PATH = '/root/kaggle/tensorflow-great-barrier-reef/data/cocodataset/annotations'
+OUTPUT_PATH = '/root/kaggle/tensorflow-great-barrier-reef/data/cocodataset'
 
-with open(f'{OUTPUT_PATH}/annotations_train.json', 'w', encoding='utf-8') as f:
+with open(f'{OUTPUT_PATH}/annotations/annotations_train.json', 'w', encoding='utf-8') as f:
     json.dump(json_train, f, ensure_ascii=True, indent=4)
     
-with open(f'{OUTPUT_PATH}/annotations_valid.json', 'w', encoding='utf-8') as f:
+with open(f'{OUTPUT_PATH}/annotations/annotations_valid.json', 'w', encoding='utf-8') as f:
     json.dump(json_valid, f, ensure_ascii=True, indent=4)
+
+import os
+os.makedirs(f'{OUTPUT_PATH}/train2017', exist_ok=True)
+os.makedirs(f'{OUTPUT_PATH}/val2017', exist_ok=True)
