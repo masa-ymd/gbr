@@ -21,8 +21,8 @@ class Exp(MyExp):
         
         # Define yourself dataset path
         self.data_dir = f"{COCO_DATASET_PATH}"
-        self.train_ann = "train.json"
-        self.val_ann = "valid.json"
+        self.train_ann = "annotations_train.json"
+        self.val_ann = "annotations_valid.json"
 
         self.output_dir = f'{OUTPUT_DIR}/YOLOX_outputs'
 
