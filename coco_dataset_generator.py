@@ -13,7 +13,7 @@ print(f'n_with_annotations: {n_with_annotations}')
 
 df = pd.concat([
     df[df['annotations'] != '[]'],
-    df[df['annotations'] == '[]'].sample(N_SAMP - n_with_annotations, random_state=1)
+    df[df['annotations'] == '[]'].sample(N_SAMP - n_with_annotations, random_state=SEED)
 ]).sample(frac=1).reset_index(drop = True)
 
 df['is_valid'] = df['video_id'] == 2
