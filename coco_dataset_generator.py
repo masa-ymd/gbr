@@ -24,8 +24,8 @@ df['path'] = df.apply(lambda row: f"{TRAIN_PATH}/video_{row['video_id']}/{row['v
 with pd.option_context("display.max_columns", 100):
     print(df.tail())
 
-print(f'train: {len(df[~df['is_valid']])}')
-print(f'val: {len(df[df['is_valid']])}')
+print(f"train: {len(df[~df['is_valid']])}")
+print(f"val: {len(df[df['is_valid']])}")
 
 def coco(df):
     
