@@ -3,18 +3,19 @@ import pandas as pd
 from tqdm import tqdm
 
 TRAIN_PATH = '/root/kaggle/tensorflow-great-barrier-reef/data/train_images'
-N_SAMP = 6000
-SEED = 42
+#N_SAMP = 6000
+#SEED = 42
 
 df = pd.read_csv('/root/kaggle/tensorflow-great-barrier-reef/data/train.csv')
 n_with_annotations = (df['annotations'] != '[]').sum()
 
 print(f'n_with_annotations: {n_with_annotations}')
 
-df = pd.concat([
-    df[df['annotations'] != '[]'],
-    df[df['annotations'] == '[]'].sample(N_SAMP - n_with_annotations, random_state=SEED)
-]).sample(frac=1).reset_index(drop = True)
+#df = pd.concat([
+#    df[df['annotations'] != '[]'],
+#    df[df['annotations'] == '[]'].sample(N_SAMP - n_with_annotations, random_state=SEED)
+#]).sample(frac=1).reset_index(drop = True)
+df = df[df['annotations'] != '[]']
 
 df['is_valid'] = df['video_id'] == 2
 df['annotations'] = df['annotations'].apply(literal_eval)
@@ -40,11 +41,20 @@ def coco(df):
             "width": 1280,
         })
         for bbox in row['annotations']:
+            b_width = bbox['width']
+            b_height = bbox['height']
+            
+            # some boxes in COTS are outside the image height and width
+            if (bbox['x'] + bbox['width'] > 1280):
+                b_width = 1280 - bbox['x'] 
+            if (bbox['y'] + bbox['height'] > 720):
+                b_height = 720 - bbox['y']
+            
             annotations.append({
                 "id": annotion_id,
                 "image_id": i,
                 "category_id": 0,
-                "bbox": list(bbox.values()),
+                "bbox": [bbox['x'], bbox['y'], b_width, b_height],
                 "area": bbox['width'] * bbox['height'],
                 "segmentation": [],
                 "iscrowd": 0
