@@ -33,8 +33,8 @@ class Exp(MyExp):
         self.eval_interval = 1
         
         self.mosaic_prob = 1.0
-        self.mixup_prob = 1.0
-        self.hsv_prob = 1.0
+        self.mixup_prob = 0.5
+        self.hsv_prob = 0.5
         self.flip_prob = 0.5
         self.no_aug_epochs = 2
         
