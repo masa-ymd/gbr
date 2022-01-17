@@ -25,7 +25,7 @@ train['pos'] = train.annotations != '[]'
 
 annos = []
 for i, x in tqdm(train.iterrows()):
-    if x.video_id == fold:
+    if x.video_id == FOLD:
         mode = 'val'
     else:
         # train
