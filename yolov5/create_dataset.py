@@ -24,7 +24,7 @@ train = pd.read_csv(f'{DATA_PATH}/train.csv')
 train['pos'] = train.annotations != '[]'
 
 annos = []
-for i, x in tqdm(train.iterrows()):
+for i, x in tqdm(train.iterrows(), len(train)):
     if x.video_id == FOLD:
         mode = 'val'
     else:
