@@ -4,7 +4,7 @@ from shutil import copyfile
 from tqdm import tqdm
 import os
 
-FOLD = 1
+FOLD = 0
 DATA_PATH = '/root/kaggle/tensorflow-great-barrier-reef/data'
 YOLO_DATA_PATH = f'{DATA_PATH}/yolo_data/fold{FOLD}/'
 
