@@ -27,6 +27,7 @@ annos = []
 for i, x in tqdm(train.iterrows(), total=len(train)):
     if x.video_id == FOLD:
         mode = 'val'
+        if not x.pos: continue
     else:
         # train
         mode = 'train'
