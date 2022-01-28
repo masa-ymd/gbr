@@ -153,11 +153,10 @@ for image_file in paths:
             bbox = np.array(list(map(float, r)))
             gt_bboxs.append(bbox)
 
-    f = os.path.splitext(os.path.basename(image_file))[0]
-    print(f)
+    fname = os.path.splitext(os.path.basename(image_file))[0]
 
-    if os.path.exists(PRD_BBOX_DIR+f):
-        with open(PRD_BBOX_DIR+txt_name, 'r') as f:
+    if os.path.exists(PRD_BBOX_DIR+fname):
+        with open(PRD_BBOX_DIR+fname, 'r') as f:
             while True:
                 r = f.readline().rstrip()
                 if not r:
@@ -170,10 +169,6 @@ for image_file in paths:
     gt_bboxs_list.append(gt_bboxs)
     prd_bboxs_list.append(prd_bboxs)
     count += 1
-print(f'{count} bound boxs appended to list')
-
-
-
 print(f'{count} bound boxs appended to list')
 
 score = calc_f2_score(gt_bboxs_list, prd_bboxs_list, verbose=True)
