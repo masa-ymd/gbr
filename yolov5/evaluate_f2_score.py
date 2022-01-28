@@ -140,8 +140,6 @@ for image_file in paths:
 """
 
 for image_file in paths:
-    print(image_file)
-    #txt_name = image_file[:-4]+'.txt'
     gt_bboxs = []
     prd_bboxs = []
     with open(image_file, 'r') as f:
@@ -153,10 +151,11 @@ for image_file in paths:
             bbox = np.array(list(map(float, r)))
             gt_bboxs.append(bbox)
 
-    fname = os.path.splitext(os.path.basename(image_file))[0]
+    fname = os.path.basename(image_file)
+    print(fname)
 
-    if os.path.exists(PRD_BBOX_DIR+fname):
-        with open(PRD_BBOX_DIR+fname, 'r') as f:
+    if os.path.exists(f'{PRD_BBOX_DIR}{fname}'):
+        with open(f'{PRD_BBOX_DIR}{fname}', 'r') as f:
             while True:
                 r = f.readline().rstrip()
                 if not r:
