@@ -1,8 +1,7 @@
 import os
 import numpy as np
-import cv2
-import matplotlib.pyplot as plt
 from glob import glob
+from tqdm import tqdm
 
 # val bbox result directory
 LABEL_DIR = '/root/kaggle/tensorflow-great-barrier-reef/data/yolo_data/fold1/labels/val'
@@ -105,41 +104,7 @@ print(f'made bounding box of {len(os.listdir(PRD_BBOX_DIR))} images in validatio
 
 gt_bboxs_list, prd_bboxs_list = [], []
 count=0
-"""
-for image_file in paths:
-    gt_bboxs = []
-    prd_bboxs = []
-    with open(image_file, 'r') as f:
-        while True:
-            r = f.readline().rstrip()
-            if not r: break
-            r = r.split()[1:]
-            bbox = np.array(list(map(float, r))); gt_bboxs.append(bbox)
-
-    pred_path = f'{PRD_BBOX_DIR}/'
-    pred_file = pred_path+image_file[27:]
-
-    no_anns = True
-    if os.path.exists(pred_file):
-        with open(pred_file, 'r') as f:
-            while True:
-                r = f.readline().rstrip()
-                if not r: break
-                r = r.split()[1:]; r = [r[4], *r[:4]]
-                conf=float(r[0])
-                #if conf>confidence: 
-                bbox = np.array(list(map(float, r)))
-                prd_bboxs.append(bbox)
-                no_anns = False
-
-    if no_anns: count+=1
-
-    gt_bboxs, prd_bboxs= np.array(gt_bboxs), np.array(prd_bboxs)
-    prd_bboxs_list.append(prd_bboxs)
-    gt_bboxs_list.append(gt_bboxs)
-"""
-
-for image_file in paths:
+for image_file in tqdm(paths):
     gt_bboxs = []
     prd_bboxs = []
     with open(image_file, 'r') as f:
@@ -152,7 +117,6 @@ for image_file in paths:
             gt_bboxs.append(bbox)
 
     fname = os.path.basename(image_file)
-    print(fname)
 
     if os.path.exists(f'{PRD_BBOX_DIR}{fname}'):
         with open(f'{PRD_BBOX_DIR}{fname}', 'r') as f:
