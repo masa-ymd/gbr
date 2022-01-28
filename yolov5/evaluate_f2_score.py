@@ -8,38 +8,6 @@ from glob import glob
 LABEL_DIR = '/root/kaggle/tensorflow-great-barrier-reef/data/yolo_data/fold1/labels/val'
 PRD_BBOX_DIR = '/root/kaggle/yolov5/runs/val/exp/labels/'
 
-
-val_images = []
-with open('/kaggle/working/val.txt', 'r') as f:
-    while True:
-        r = f.readline().rstrip()
-        if not r:
-            break
-        val_images.append(os.path.basename(r))
-print(f'{len(val_images)} image in validation set')
-
-not_processed_images = val_images.copy()
-for file in os.listdir(PRD_BBOX_DIR):
-    img_name = file[:-4]+'.jpg'
-    if img_name in val_images:
-        not_processed_images.remove(img_name)
-print(f"yolov5 model doesn't create bounding box for {len(not_processed_images)} images")
-
-# model didn't detect starfish in "not_processed_images" - it will be calculated as False Negative(FN)
-# run code to know that there exist ground truth bounding boxs in "not_processed_images"
-# in fact, /kaggle/images/ only include images which have bounding boxs
-for image_name in not_processed_images[:20]:
-    img = cv2.imread('/kaggle/images/'+image_name)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    plt.imshow(img)
-    plt.title(image_name)
-    plt.show()
-    txt_name = image_name[:-4]+'.txt'
-    with open('/kaggle/labels/'+txt_name, 'r') as f:
-        r = f.read()
-        count = r.count('\n')+1
-        print(f"{count} ground truth bounding box exits")
-
 def calc_iou(bboxes1, bboxes2, bbox_mode='xywh'):
     assert len(bboxes1.shape) == 2 and bboxes1.shape[1] == 4
     assert len(bboxes2.shape) == 2 and bboxes2.shape[1] == 4
@@ -135,7 +103,9 @@ paths = glob(f'{LABEL_DIR}/*')
 val_len = len(paths) 
 print(f'made bounding box of {len(os.listdir(PRD_BBOX_DIR))} images in validation set ')
 
+gt_bboxs_list, prd_bboxs_list = [], []
 count=0
+"""
 for image_file in paths:
     gt_bboxs = []
     prd_bboxs = []
@@ -157,16 +127,52 @@ for image_file in paths:
                 if not r: break
                 r = r.split()[1:]; r = [r[4], *r[:4]]
                 conf=float(r[0])
-                if conf>confidence: 
-                    bbox = np.array(list(map(float, r)))
-                    prd_bboxs.append(bbox)
-                    no_anns = False
+                #if conf>confidence: 
+                bbox = np.array(list(map(float, r)))
+                prd_bboxs.append(bbox)
+                no_anns = False
 
     if no_anns: count+=1
 
     gt_bboxs, prd_bboxs= np.array(gt_bboxs), np.array(prd_bboxs)
     prd_bboxs_list.append(prd_bboxs)
     gt_bboxs_list.append(gt_bboxs)
+"""
+
+for image_file in paths:
+    print(image_file)
+    #txt_name = image_file[:-4]+'.txt'
+    gt_bboxs = []
+    prd_bboxs = []
+    with open(image_file, 'r') as f:
+        while True:
+            r = f.readline().rstrip()
+            if not r:
+                break
+            r = r.split()[1:]
+            bbox = np.array(list(map(float, r)))
+            gt_bboxs.append(bbox)
+
+    f = os.path.splitext(os.path.basename(image_file))[0]
+    print(f)
+
+    if os.path.exists(PRD_BBOX_DIR+f):
+        with open(PRD_BBOX_DIR+txt_name, 'r') as f:
+            while True:
+                r = f.readline().rstrip()
+                if not r:
+                    break
+                r = r.split()[1:]
+                r = [r[4], *r[:4]]
+                bbox = np.array(list(map(float, r)))
+                prd_bboxs.append(bbox)
+    gt_bboxs, prd_bboxs = np.array(gt_bboxs), np.array(prd_bboxs)
+    gt_bboxs_list.append(gt_bboxs)
+    prd_bboxs_list.append(prd_bboxs)
+    count += 1
+print(f'{count} bound boxs appended to list')
+
+
 
 print(f'{count} bound boxs appended to list')
 
