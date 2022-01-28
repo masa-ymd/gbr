@@ -4,7 +4,7 @@ from shutil import copyfile
 from tqdm import tqdm
 import os
 
-FOLD = 2
+FOLD = 1
 DATA_PATH = '/root/kaggle/tensorflow-great-barrier-reef/data'
 YOLO_DATA_PATH = f'{DATA_PATH}/yolo_data/fold{FOLD}/'
 
@@ -26,17 +26,15 @@ train['pos'] = train.annotations != '[]'
 annos = []
 for i, x in tqdm(train.iterrows(), total=len(train)):
     if x.video_id == FOLD:
+        # val
         mode = 'val'
-        if not x.pos: continue
     else:
         # train
         mode = 'train'
         if not x.pos: continue
-        # val
+
     copyfile(f'{DATA_PATH}/train_images/video_{x.video_id}/{x.video_frame}.jpg',
                 f'{YOLO_DATA_PATH}/images/{mode}/{x.image_id}.jpg')
-    if not x.pos:
-        continue
     r = ''
     anno = eval(x.annotations)
     for an in anno:
