@@ -77,3 +77,12 @@ for index, row in tqdm(df.iterrows()):
             f.write("\n")
 
 print("Annotations in Yolov5 format for all images created.")
+
+
+train_data = os.listdir(f"{DATA_DIR}/labels/train")
+num_train_file = len(train_data)
+print("Number of txt file in train folder: ", num_train_file)
+
+valid_data = os.listdir(f"{DATA_DIR}/labels/valid")
+num_valid_file = len(valid_data)
+print("Number of txt file in valid foler: ", num_valid_file)
