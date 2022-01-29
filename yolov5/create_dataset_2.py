@@ -1,10 +1,13 @@
+import ast
 import os
 from shutil import copyfile
 from tqdm import tqdm
 tqdm.pandas()
+import numpy as np
 import pandas as pd
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_colwidth", None)
+
 
 BASE_DIR = '/root/kaggle/tensorflow-great-barrier-reef'
 DATA_DIR = f'{BASE_DIR}/yolo_spilt_dataset'
@@ -34,3 +37,43 @@ print(f"Directory structure for Yolov5 created")
     
 _ = df.progress_apply(lambda row: copyfile(row.image_path, row.new_path), axis=1)
 print("Sucessfully copy file for train and valid")
+
+
+IMG_WIDTH, IMG_HEIGHT = 1280, 720
+def get_yolo_format_bbox(bbox, img_w, img_h):
+    w = bbox['width']
+    h = bbox['height']
+    
+    if (bbox['x'] + bbox['width'] > img_w):
+        w = img_w - bbox['x']
+    if (bbox['y'] + bbox['height'] > img_h):
+        h = img_h - bbox['y']
+    
+    xc = bbox['x'] + int(np.round(w/2))
+    yc = bbox['y'] + int(np.round(h/2))
+    
+    # normalize
+    return [xc/img_w, yc/img_h, w/img_w, h/img_h]
+
+for index, row in tqdm(df.iterrows()):
+    annotations = ast.literal_eval(row.annotations)
+    bboxes = []
+    for annot in annotations:
+        bbox = get_yolo_format_bbox(annot, IMG_WIDTH, IMG_HEIGHT)
+        bboxes.append(bbox)
+        
+    if row.is_train:
+        file_name = f"{DATA_DIR}/labels/train/{row.image_id}.txt"
+    else:
+        file_name = f"{DATA_DIR}/labels/valid/{row.image_id}.txt"
+        
+    with open(file_name, 'w') as f:
+        for i, bbox in enumerate(bboxes):
+            label = 0
+            bbox = [label] + bbox
+            bbox = [str(i) for i in bbox]
+            bbox = " ".join(bbox)
+            f.write(bbox)
+            f.write("\n")
+
+print("Annotations in Yolov5 format for all images created.")
