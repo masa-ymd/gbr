@@ -27,7 +27,7 @@ os.makedirs(f"{DATA_DIR}/images/train", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/images/valid", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/labels/train", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/labels/valid", exist_ok=True)
-print(f"Directory structure yor Yolov5 created")
+print(f"Directory structure for Yolov5 created")
 
 #def copy_file(row):
 #    copyfile(row.image_path, row.new_path)
