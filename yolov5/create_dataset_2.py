@@ -10,9 +10,9 @@ pd.set_option("display.max_colwidth", None)
 
 
 BASE_DIR = '/root/kaggle/tensorflow-great-barrier-reef'
-DATA_DIR = f'{BASE_DIR}/yolo_spilt_dataset'
+DATA_DIR = f'{BASE_DIR}/yolo_spilt9010_dataset'
 
-df = pd.read_csv(f"{BASE_DIR}/data/reef-cv-strategy-subsequences-dataframes/train-validation-split/train-0.2.csv")
+df = pd.read_csv(f"{BASE_DIR}/data/reef-cv-strategy-subsequences-dataframes/train-validation-split/train-0.1.csv")
 df['image_path'] = df['image_path'].str.replace('../input/tensorflow-great-barrier-reef', f'{BASE_DIR}/data')
 print(df.head(3))
 
@@ -31,9 +31,6 @@ os.makedirs(f"{DATA_DIR}/images/valid", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/labels/train", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/labels/valid", exist_ok=True)
 print(f"Directory structure for Yolov5 created")
-
-#def copy_file(row):
-#    copyfile(row.image_path, row.new_path)
     
 _ = df.progress_apply(lambda row: copyfile(row.image_path, row.new_path), axis=1)
 print("Sucessfully copy file for train and valid")
@@ -55,7 +52,7 @@ def get_yolo_format_bbox(bbox, img_w, img_h):
     # normalize
     return [xc/img_w, yc/img_h, w/img_w, h/img_h]
 
-for index, row in tqdm(df.iterrows()):
+for index, row in tqdm(df.iterrows(), total=len(df)):
     annotations = ast.literal_eval(row.annotations)
     bboxes = []
     for annot in annotations:
