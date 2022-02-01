@@ -20,16 +20,16 @@ def add_new_path(row):
     if row.is_train:
         return f"{DATA_DIR}/images/train/{row.image_id}.jpg"
     else:
-        return f"{DATA_DIR}/images/valid/{row.image_id}.jpg"
+        return f"{DATA_DIR}/images/val/{row.image_id}.jpg"
     
 df['new_path'] = df.apply(lambda row: add_new_path(row), axis=1)
 print("New image path for train/valid created")
 print(df.head(3))
 
 os.makedirs(f"{DATA_DIR}/images/train", exist_ok=True)
-os.makedirs(f"{DATA_DIR}/images/valid", exist_ok=True)
+os.makedirs(f"{DATA_DIR}/images/val", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/labels/train", exist_ok=True)
-os.makedirs(f"{DATA_DIR}/labels/valid", exist_ok=True)
+os.makedirs(f"{DATA_DIR}/labels/val", exist_ok=True)
 print(f"Directory structure for Yolov5 created")
     
 _ = df.progress_apply(lambda row: copyfile(row.image_path, row.new_path), axis=1)
@@ -62,7 +62,7 @@ for index, row in tqdm(df.iterrows(), total=len(df)):
     if row.is_train:
         file_name = f"{DATA_DIR}/labels/train/{row.image_id}.txt"
     else:
-        file_name = f"{DATA_DIR}/labels/valid/{row.image_id}.txt"
+        file_name = f"{DATA_DIR}/labels/val/{row.image_id}.txt"
         
     with open(file_name, 'w') as f:
         for i, bbox in enumerate(bboxes):
@@ -80,6 +80,6 @@ train_data = os.listdir(f"{DATA_DIR}/labels/train")
 num_train_file = len(train_data)
 print("Number of txt file in train folder: ", num_train_file)
 
-valid_data = os.listdir(f"{DATA_DIR}/labels/valid")
+valid_data = os.listdir(f"{DATA_DIR}/labels/val")
 num_valid_file = len(valid_data)
 print("Number of txt file in valid foler: ", num_valid_file)
