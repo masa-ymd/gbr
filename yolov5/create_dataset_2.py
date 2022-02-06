@@ -10,9 +10,9 @@ pd.set_option("display.max_colwidth", None)
 
 
 BASE_DIR = '/root/kaggle/tensorflow-great-barrier-reef'
-DATA_DIR = f'{BASE_DIR}/yolo_spilt9010_dataset'
+DATA_DIR = f'{BASE_DIR}/yolo_spilt9010_1982_dataset'
 
-df = pd.read_csv(f"{BASE_DIR}/data/reef-cv-strategy-subsequences-dataframes/train-validation-split/train-0.1.csv")
+df = pd.read_csv(f"{BASE_DIR}/data/reef-cv-strategy-subsequences-dataframes/train-validation-split/train_1982-0.1.csv")
 df['image_path'] = df['image_path'].str.replace('../input/tensorflow-great-barrier-reef', f'{BASE_DIR}/data')
 print(df.head(3))
 
