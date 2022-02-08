@@ -26,8 +26,6 @@ df['new_path'] = df.apply(lambda row: add_new_path(row), axis=1)
 print("New image path for train/valid created")
 print(df.head(3))
 
-exit
-
 os.makedirs(f"{DATA_DIR}/images/train", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/images/val", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/labels/train", exist_ok=True)
