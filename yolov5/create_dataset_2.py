@@ -10,7 +10,7 @@ pd.set_option("display.max_colwidth", None)
 
 
 BASE_DIR = '/root/kaggle/tensorflow-great-barrier-reef'
-DATA_DIR = f'{BASE_DIR}/yolo_spilt9010_1982_dataset'
+DATA_DIR = f'{BASE_DIR}/yolo_spilt9010_1982_2_dataset'
 
 df = pd.read_csv(f"{BASE_DIR}/data/reef-cv-strategy-subsequences-dataframes/train-validation-split/train_1982-0.1.csv")
 df['image_path'] = df['image_path'].str.replace('../input/tensorflow-great-barrier-reef', f'{BASE_DIR}/data')
@@ -26,14 +26,16 @@ df['new_path'] = df.apply(lambda row: add_new_path(row), axis=1)
 print("New image path for train/valid created")
 print(df.head(3))
 
+exit
+
 os.makedirs(f"{DATA_DIR}/images/train", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/images/val", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/labels/train", exist_ok=True)
 os.makedirs(f"{DATA_DIR}/labels/val", exist_ok=True)
 print(f"Directory structure for Yolov5 created")
     
-_ = df.progress_apply(lambda row: copyfile(row.image_path, row.new_path), axis=1)
-print("Sucessfully copy file for train and valid")
+#_ = df.progress_apply(lambda row: copyfile(row.image_path, row.new_path), axis=1)
+#print("Sucessfully copy file for train and valid")
 
 
 IMG_WIDTH, IMG_HEIGHT = 1280, 720
@@ -61,8 +63,12 @@ for index, row in tqdm(df.iterrows(), total=len(df)):
         
     if row.is_train:
         file_name = f"{DATA_DIR}/labels/train/{row.image_id}.txt"
+        if not row.has_annotations:
+            continue
+        copyfile(row.image_path, row.new_path)
     else:
         file_name = f"{DATA_DIR}/labels/val/{row.image_id}.txt"
+        copyfile(row.image_path, row.new_path)
         
     with open(file_name, 'w') as f:
         for i, bbox in enumerate(bboxes):
