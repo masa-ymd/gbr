@@ -3,7 +3,7 @@
 cd /root/kaggle/yolov5
 #python3 train.py --img 2000 --batch 8 --epochs 15 --data /root/gbr/yolov5/reef_90_10_1982.yaml --weights yolov5s6.pt --name split_90_10_5s6_onlyano_bs8_ --hyp /root/gbr/yolov5/hyp.heavy.2.yaml
 #python3 train.py --img 1400 --batch 8 --epochs 15 --data /root/gbr/yolov5/reef_90_10_1982.yaml --weights yolov5m6.pt --name split_90_10_5m6_onlyano_bs8_ --hyp /root/gbr/yolov5/hyp.heavy.2.yaml --save-period 1
-python3 train.py --img 2000 --batch 16 --epochs 10 --data /root/gbr/yolov5/reef_90_10_1982.yaml --weights /root/kaggle/yolov5/runs/train/split_90_10_5m6_onlyano_bs8_3/weights/epoch10.pt --name split_90_10_5m6_onlyano_bs8_ft_ --freeze 10 --hyp /root/gbr/yolov5/hyp.heavy.2.yaml --save-period 1
+#python3 train.py --img 2000 --batch 16 --epochs 10 --data /root/gbr/yolov5/reef_90_10_1982.yaml --weights /root/kaggle/yolov5/runs/train/split_90_10_5m6_onlyano_bs8_3/weights/epoch10.pt --name split_90_10_5m6_onlyano_bs8_ft_ --freeze 10 --hyp /root/gbr/yolov5/hyp.heavy.2.yaml --save-period 1
 #python3 train.py --img 3000 --batch 2 --epochs 15 --data /root/gbr/yolov5/reef_f1_naive.yaml --weights yolov5m6.pt --name l6_3600_uflip_vm5_m_f2 --hyp /root/gbr/yolov5/hyp.heavy.2.yaml
 #python3 train.py --img 4000 --batch 4 --epochs 20 --data /root/gbr/yolov5/reef_f1_naive.yaml --weights /root/kaggle/tensorflow-great-barrier-reef/models/pretrained_weights/best_f1.pt --freeze 10 --name f1_fineturning --hyp /root/gbr/yolov5/hyp.heavy.2.yaml
 #python3 train.py --img 3000 --batch 2 --epochs 15 --data /root/gbr/yolov5/reef_80_20_naive.yaml --weights yolov5m.pt --name split_80_20_5m --hyp /root/gbr/yolov5/hyp.heavy.2.yaml
@@ -11,3 +11,4 @@ python3 train.py --img 2000 --batch 16 --epochs 10 --data /root/gbr/yolov5/reef_
 #python3 train.py --img 2400 --batch 2 --epochs 2 --data /root/gbr/yolov5/reef_90_10_naive.yaml --weights /root/kaggle/tensorflow-great-barrier-reef/models/pretrained_weights/last_5l6_e6.pt --name split_90_10_5l6_finetune --freeze 10 --hyp /root/gbr/yolov5/hyp.finetune.yaml
 #python3 train.py --img 2400 --batch 4 --epochs 10 --data /root/gbr/yolov5/reef_90_10_1982.yaml --weights yolov5l6.pt --name split_90_10_5l6_onlyano_ --hyp /root/gbr/yolov5/hyp.heavy.3.yaml
 #python3 train.py --img 2000 --batch 16 --epochs 10 --data /root/gbr/yolov5/reef_90_10_1982.yaml --weights /root/kaggle/yolov5/runs/train/split_90_10_5s6_onlyano_bs8_/weights/best.pt --freeze 10 --name split_90_10_5s6_onlyano_bs8_ft --hyp /root/gbr/yolov5/hyp.heavy.2.yaml
+python3 train.py --img 2240 --batch 16 --epochs 10 --data /root/gbr/yolov5/reef_90_10_1982.yaml --weights /root/kaggle/tensorflow-great-barrier-reef/models/pretrained_weights/f2_sub2.pt --name f2_sub2_ft_ --freeze 10 --hyp /root/gbr/yolov5/hyp.heavy.2.yaml --save-period 1 --optimizer AdamW
